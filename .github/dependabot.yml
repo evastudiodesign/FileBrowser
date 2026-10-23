@@ -1,0 +1,34 @@
+version: 2
+updates:
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      go-minor-patch:
+        update-types: ["minor", "patch"]
+    labels: ["dependencies", "go"]
+
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    groups:
+      frontend-minor-patch:
+        update-types: ["minor", "patch"]
+    labels: ["dependencies", "frontend"]
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels: ["dependencies", "docker"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns: ["*"]
+    labels: ["dependencies", "ci"]

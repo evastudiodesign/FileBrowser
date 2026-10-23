@@ -1,30 +1,26 @@
 # Security Policy
 
+This repository is a security-maintained fork of [filebrowser/filebrowser](https://github.com/filebrowser/filebrowser), which was archived on 2026-09-01 and no longer receives fixes.
+
 ## Supported Versions
 
-No version receives security fixes. The last planned release has already shipped and no further changes will be merged.
+Only the `master` branch and the latest image published from it (`ghcr.io/evastudiodesign/filebrowser`) receive security fixes.
 
-| Version | Supported |
-| ------- | --------- |
-| 2.x     | ❌        |
-| < 2.0   | ❌        |
+## How the fork is kept up to date
 
-## Before Reporting
+- **Dependabot** opens weekly PRs for Go modules, frontend (pnpm) packages, the Docker base images and GitHub Actions. Dependabot security updates open PRs as soon as an advisory is published.
+- **Security workflow** (`.github/workflows/security.yaml`) runs `govulncheck` and `pnpm audit` on every PR, on every push to `master` and daily.
+- **Image workflow** (`.github/workflows/image.yaml`) builds the container image, scans it with Grype (fails on fixable high/critical findings), and publishes it to GHCR. It also rebuilds weekly to pick up base image fixes.
 
-This project is being wound down. To avoid duplicates, first check the [existing advisories](https://github.com/filebrowser/filebrowser/security/advisories) and open issues, and confirm:
+## Known issues inherited from upstream
 
-- **It concerns this project, not a fork.** Reports about code, features, or endpoints that don't exist here belong to the relevant fork.
-- **It isn't an already-known class** that remains unaddressed. Those are listed under [Security](README.md#security) in the README; reports covering them are likely to be closed as duplicates.
+The upstream project lists known, intentionally unaddressed issue classes under [Security](README.md#security) in the README. They still apply to this fork unless a fix is noted in the changelog.
 
 ## Reporting a Vulnerability
 
-Until 2026-09-01, report privately via the [Security](https://github.com/filebrowser/filebrowser/security) page. After that date this repository is read-only and reports can no longer be submitted.
-
-Please include, where possible:
+Report privately via the [Security](https://github.com/evastudiodesign/FileBrowser/security) page of this repository. Please include, where possible:
 
 - The commit the issue was found at
 - A plaintext proof of concept (no binaries)
 - Steps to reproduce
 - Recommended remediation, if any
-
-No fix will ship for any report: the last planned release has already shipped and no further changes will be merged. Reports may still be published as advisories so that people running File Browser can assess their exposure.
