@@ -1,0 +1,42 @@
+name: Security
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+  schedule:
+    # Daily, so newly disclosed CVEs surface even without code changes.
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  govulncheck:
+    name: Go vulnerabilities
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: golang/govulncheck-action@v1
+        with:
+          go-version-input: "1.26.x"
+          go-package: ./...
+
+  pnpm-audit:
+    name: Frontend vulnerabilities
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: "frontend/package.json"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.x"
+      - working-directory: frontend
+        run: |
+          # Full report for visibility; only shipped (prod) deps at high+ fail the job.
+          pnpm audit || true
+          pnpm audit --prod --audit-level high
