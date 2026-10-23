@@ -1,0 +1,7 @@
+ignore:
+  # The fork has no release tags, so the binary reports a v2.0.0 pseudo-version
+  # and every upstream advisory matches. The source is upstream v2.63.23, which
+  # carries those fixes; upstream advisories are reviewed by hand instead.
+  - package:
+      name: github.com/filebrowser/filebrowser/v2
+      type: go-module
